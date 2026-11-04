@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "values": [
+    {"name": "loader hands off to Clear.bin", "group": "structure", "value": true, "source": "function 0x180007594 (GetPluginFactory, Clear.vst3)"},
+    {"name": "original version", "group": "structure", "value": "1.1.1", "source": "Clear.bin version resource"},
+    {"name": "controls", "group": "controls", "value": "Ambience, Voice, Voice Reverb", "estimated": true},
+    {"name": "knob minimum (Off)", "group": "controls", "value": -60, "unit": "dB", "estimated": true},
+    {"name": "knob maximum", "group": "controls", "value": 12, "unit": "dB", "estimated": true},
+    {"name": "ambience default", "group": "controls", "value": -60, "unit": "dB", "estimated": true},
+    {"name": "voice default", "group": "controls", "value": 0, "unit": "dB", "estimated": true},
+    {"name": "voice reverb default", "group": "controls", "value": -60, "unit": "dB", "estimated": true},
+    {"name": "frame size at 48 kHz", "group": "engine", "value": 2048, "unit": "samples", "estimated": true},
+    {"name": "hop", "group": "engine", "value": 0.25, "unit": "of frame", "estimated": true},
+    {"name": "power smoothing", "group": "engine", "value": 0.7, "estimated": true},
+    {"name": "noise window", "group": "engine", "value": 1.5, "unit": "s", "estimated": true},
+    {"name": "noise sub-windows", "group": "engine", "value": 8, "estimated": true},
+    {"name": "noise bias", "group": "engine", "value": 1.6, "estimated": true},
+    {"name": "noise warm-up", "group": "engine", "value": 3.0, "unit": "s", "estimated": true},
+    {"name": "reverb T60", "group": "engine", "value": 0.5, "unit": "s", "estimated": true},
+    {"name": "reverb delay", "group": "engine", "value": 0.048, "unit": "s", "estimated": true},
+    {"name": "decision-directed alpha", "group": "engine", "value": 0.92, "estimated": true},
+    {"name": "rumble corner", "group": "engine", "value": 80, "unit": "Hz", "estimated": true},
+    {"name": "mp3 bitrates", "group": "export", "value": "320, 192, 128 kbps", "estimated": true},
+    {"name": "ogg quality", "group": "export", "value": 0.6, "estimated": true}
+  ]
+}

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Clear
+Comment=Clean voice recordings offline
+Exec=clear_studio
+Icon=clear
+Categories=AudioVideo;Audio;
+Terminal=false

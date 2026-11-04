@@ -1,0 +1,9 @@
+/target/
+/dist/
+/AppDir/
+/selftest/
+/shots/
+*.AppImage
+*.log
+.DS_Store
+Thumbs.db
