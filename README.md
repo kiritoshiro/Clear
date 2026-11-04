@@ -1,0 +1,63 @@
+# Clear
+
+A standalone, offline Rust desktop app for cleaning voice recordings. Open a recording, adjust **Ambience**, **Voice**, and **Voice Reverb**, compare the original with the cleaned mix, and export the result. The window is currently titled **Voice Cleanup**.
+
+This is an independent DSP implementation, not Supertone Clear, its AI model, or a VST host. No proprietary plugin, activation, model download, FFmpeg installation, or network service is required. The processing is heuristic and has not been validated as equivalent to the commercial product.
+
+## Downloads and use
+
+Get tagged builds from [Releases](https://github.com/kiritoshiro/Clear/releases). Development builds are downloadable from successful [Actions runs](https://github.com/kiritoshiro/Clear/actions/workflows/desktop.yml) while their artifacts are retained.
+
+- **Windows 10/11 x64:** extract `Clear-windows-x86_64.zip` and run `Clear.exe`. No Rust or Visual C++ runtime installation is needed. Builds are unsigned.
+- **Linux x64:** Ubuntu 22.04 or newer, or a compatible desktop distribution with glibc 2.35+, OpenGL graphics drivers, and working ALSA audio. Run `chmod +x Clear-linux-x86_64.AppImage`, then `./Clear-linux-x86_64.AppImage`. If FUSE is unavailable, run `./Clear-linux-x86_64.AppImage --appimage-extract-and-run`. File dialogs use the desktop's XDG portal service. The AppImage bundles application libraries; graphics drivers, the desktop portal, and core operating-system libraries are supplied by the host.
+
+Open or drop a file into the window. Drag a knob vertically or scroll over it; hold Shift for fine adjustment, double-click to reset. Use Cleaned/Original for comparison and click the waveform to seek. Export creates a new file at the selected location; choose a separate filename to preserve your source recording.
+
+### Audio formats
+
+- Import: WAV, AIFF, FLAC, MP3, OGG Vorbis, M4A/AAC and ALAC; additional CAF/MKV/WebM containers depend on their audio codec. Listing an extension does not guarantee support for every codec in that container.
+- Export: WAV 16/24-bit or 32-bit float, AIFF 16/24-bit, FLAC 16/24-bit, MP3 128/192/320 kbps, and OGG Vorbis.
+- MP3 export uses at most the first two channels and resamples inputs above 48 kHz. Other exports preserve the source channel count and rate. Exported samples are clamped to [-1, 1].
+
+## Development
+
+The Cargo project is at the repository root. `Cargo.lock` and `rust-toolchain.toml` are committed for repeatable builds. Rustup installs Rust 1.98.1 automatically. On Windows install Visual Studio Build Tools with **Desktop development with C++** and a Windows SDK. The codec bindings compile their bundled C sources.
+
+On Ubuntu 22.04+, install native dependencies:
+
+```sh
+sudo apt-get update
+sudo apt-get install -y build-essential pkg-config libasound2-dev libudev-dev libwayland-dev libxkbcommon-dev libx11-dev libxcursor-dev libxi-dev libxrandr-dev libgl1-mesa-dev libegl1-mesa-dev
+```
+
+```sh
+cargo run --locked
+cargo fmt --all -- --check
+cargo test --release --locked
+cargo build --release --locked
+```
+
+Run `target/release/clear_studio --selftest selftest` (add `.exe` on Windows) for the headless synthetic DSP and 22 mono/stereo export/decode checks. It writes `selftest/report.txt` and exits unsuccessfully on failure. Place optional external audio fixtures named `in_*` in that directory to check their decoding and processing too. This does not test playback hardware, GUI interaction, or perceived quality on real recordings.
+
+Source map: `src/main.rs` owns the UI and self-test; `src/dsp.rs` the separation engine and demo; `src/audio_io.rs` import/export; `src/player.rs` playback. Processing equations, estimated parameters and original development limitations are preserved in [docs/MECHANICS.md](docs/MECHANICS.md) and [docs/mechanics.json](docs/mechanics.json).
+
+## Releases
+
+[`.github/workflows/desktop.yml`](.github/workflows/desktop.yml) checks formatting, runs the headless tests, builds both platforms, packages them and uploads artifacts on main pushes, pull requests, and manual runs. The Linux package is also self-tested through its AppImage launcher. Windows statically links the C runtime; Linux packaging uses [linuxdeploy](https://github.com/linuxdeploy/linuxdeploy).
+
+To publish a release, update the package version and lockfile, commit, and push a matching tag:
+
+```sh
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+Only tag builds publish a GitHub Release, after both platform jobs pass. Checksums accompany each package. Windows signing, macOS, ARM builds, automatic updates, and installers are not configured.
+
+## Provenance and limits
+
+Imported from the `app` folder of the original local Craft Anything project on 2026-11-04. Source, Cargo manifest/lockfile and mechanics notes are retained. Generated targets, screenshots, test audio, session logs and proprietary reference files are excluded; synthetic fixtures can be regenerated by the self-test.
+
+All audio is held in memory and processed per channel. Long recordings can use substantial RAM. Separation quality on noisy or reverberant real speech still needs listening tests. This import adds development and packaging infrastructure; it does not replace the existing processing algorithm.
+
+No application license has been selected. Dependencies retain their respective licenses; see [THIRD_PARTY.md](THIRD_PARTY.md).
