@@ -80,7 +80,7 @@ jobs:
           "$OUTPUT" --appimage-extract-and-run --selftest "$RUNNER_TEMP/clear-appimage-selftest"
           cd dist
           sha256sum Clear-linux-x86_64.AppImage > Clear-linux-x86_64.AppImage.sha256
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: Clear-${{ matrix.platform }}
           path: dist/*
