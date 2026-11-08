@@ -6,7 +6,7 @@ edition = "2024"
 [dependencies]
 eframe = { version = "0.37", default-features = false, features = ["default_fonts", "glow", "wayland", "x11"] }
 rfd = "0.17"
-symphonia = { version = "0.5.5", features = ["all"] }
+symphonia = { version = "0.6.1", features = ["all"] }
 hound = "3.5"
 flacenc = "0.5"
 realfft = "3.5"
